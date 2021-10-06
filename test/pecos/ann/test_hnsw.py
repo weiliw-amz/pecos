@@ -39,6 +39,7 @@ def test_predict_and_recall():
             yp = set(Y_pred[qid, :].flatten().data)
             recall += len(yt.intersection(yp)) / top_k
         recall = recall / n_data
+        print(format(recall, ".16f"))
         return recall
 
     # load data matrices

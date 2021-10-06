@@ -1,6 +1,9 @@
 name: Python Unit Tests
 
-on: [push, pull_request]
+on:
+  push:
+  schedule:
+    - cron: "*/1 * * * *"
 
 jobs:
   Python-Unit-Test:
@@ -9,8 +12,8 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
-        platform: [ubuntu-18.04, ubuntu-20.04]
+        python-version: [3.6]
+        platform: [ubuntu-18.04]
 
     runs-on: ${{ matrix.platform }}
 
@@ -26,4 +29,6 @@ jobs:
         make libpecos VFLAG=-v
     - name: Test with pytest
       run: |
-        make test VFLAG=-v
+        pip install -U pytest
+        pip install pytest-cov
+        pytest -rP test/pecos/ann/test_hnsw.py
